@@ -3,15 +3,15 @@ import Users from "./Users";
 import axios from "axios";
 import userEvent from "@testing-library/user-event";
 import {MemoryRouter, Route, Routes} from "react-router-dom";
-import UserDetailsPage from "../pages/UserDetailsPage";
+import UserDetailsPage from "../UserDetailsPage";
 import React from "react";
-import AppRouter from "../router/AppRouter";
-import {renderWithRouter} from "../tests/helpers/renderWithRouter";
+import AppRouter from "../../router/AppRouter";
+import {renderWithRouter} from "../../tests/helpers/renderWithRouter";
 
 
 jest.mock('axios')
 
-describe('test Users.jsx', () => {
+describe('test UsersForTest.jsx', () => {
 
     let response;
     beforeEach(() => {
@@ -64,7 +64,7 @@ describe('test Users.jsx', () => {
 
         render(
             // Работает для всех трёх вариантов
-           // renderWithRouter(<Users/>, '/users')
+           // renderWithRouter(<UsersForTest/>, '/users')
            // renderWithRouter(null, '/users')
              renderWithRouter(<Users/>)
         );

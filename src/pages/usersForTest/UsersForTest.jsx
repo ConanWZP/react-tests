@@ -1,25 +1,42 @@
 import React, {useEffect, useState} from 'react';
-import axios from "axios";
 import {Link} from "react-router-dom";
+import User from "./User";
 
-const Users = () => {
+const UsersForTest = () => {
 
     const [users, setUsers] = useState([])
-
-    const loadUsers = async () => {
-        const resp = await axios.get(`https://jsonplaceholder.typicode.com/users`)
-        setUsers(resp.data)
-    }
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
-        loadUsers()
+        setIsLoading(true)
+        fetch(`https://jsonplaceholder.typicode.com/users`)
+            .then(response => response.json())
+            .then(json => {
+                setTimeout(() => {
+                    setUsers(json)
+                    setIsLoading(false)
+                }, 1000)
+            })
+
     }, [])
 
+    const onDelete = (id) => {
+        setUsers(users.filter(user => user.id !== id))
+    }
+
+
     return (
-        <div data-testid={'users-page'}>
-            {users.map(user => <Link to={`/users/${user.id}`} key={user.id} data-testid={'user-item'}>{user.name}</Link>)}
+        <div>
+            {isLoading && <h1 id="users-loading">Идет загрузка...</h1>}
+            {users.length && (
+                <div id="users-list">
+                    {users.map(user => (
+                        <User onDelete={onDelete} user={user} />
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
 
-export default Users;
+export default UsersForTest;
